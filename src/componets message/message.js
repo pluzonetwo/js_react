@@ -1,8 +1,10 @@
 import React from "react";
 import './style.css'
 
-export default function Message({text}) {
+export default function Message({author, text}) {
     return (
-        <div className='messageText'><b>{text}</b></div>
+        <div className='messageText'>
+            <b>{author}: {text}</b>
+        </div>
     )
 }
