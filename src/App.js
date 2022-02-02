@@ -13,7 +13,6 @@ function App() {
     const newMsg = {
       value,
       author: AUTHORS.ME,
-      bot: AUTHORS.BOT,
     }
     setMessageList((prevMessageList) => [...prevMessageList, newMsg]);
   }
@@ -22,7 +21,7 @@ function App() {
     if (messageList[messageList.length - 1]?.author === AUTHORS.ME) {
       const newMsg = {
         value: 'You entered message',
-        bot: AUTHORS.BOT,
+        author: AUTHORS.BOT,
       }
       setMessageList((prevMessageList) => [...prevMessageList, newMsg]);
     }
