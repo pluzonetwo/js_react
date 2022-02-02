@@ -3,24 +3,34 @@ import Message from './componets message/message'
 import { useState } from "react";
 import { Form } from './components form/form'
 import {useEffect} from "react";
+import {AUTHORS} from "./Utils/constants";
 
 function App() {
 
   const [messageList, setMessageList] = useState([]);
 
-  const handleAddMessage = ({author, value}) => {
-    setMessageList((prevMessageList) => [...prevMessageList, {author, value}]);
+  const handleAddMessage = ({value}) => {
+    const newMsg = {
+      value,
+      author: AUTHORS.ME,
+      bot: AUTHORS.BOT,
+    }
+    setMessageList((prevMessageList) => [...prevMessageList, newMsg]);
   }
 
-  useEffect((author, value) => {
-    if (messageList.length % 2 !== 0) {
-      handleAddMessage({author: 'Robot', value: 'You send message'});
+  useEffect(() => {
+    if (messageList[messageList.length - 1]?.author === AUTHORS.ME) {
+      const newMsg = {
+        value: 'You entered message',
+        bot: AUTHORS.BOT,
+      }
+      setMessageList((prevMessageList) => [...prevMessageList, newMsg]);
     }
-  }, [messageList.length]);
+  }, [messageList]);
 
   return <div className='wrapper' >
     <h1>Messenger</h1>
-    {messageList.map((el, index) => <Message key={index} text={el.value} author={el.author}/>)}
+    {messageList.map((message, index) => <Message key={index} author={message.author} text={message.value}/>)}
     <Form onSubmit={handleAddMessage} />
   </div>
 }
