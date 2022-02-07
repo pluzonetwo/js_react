@@ -4,15 +4,15 @@ import {Link} from "react-router-dom";
 
 const chatList = [
     {
-        id: 1,
+        id: 'chat1',
         name: 'Chat # 1',
     },
     {
-        id: 2,
+        id: 'chat2',
         name: 'Chat # 2',
     },
     {
-        id: 3,
+        id: 'chat3',
         name: 'Chat # 3',
     },
 ]

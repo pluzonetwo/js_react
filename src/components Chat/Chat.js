@@ -30,7 +30,7 @@ export const Chat = () => {
         setMessageList((prevMessageList) => ({
             ...prevMessageList,
             [chatId]: [...prevMessageList[chatId], newMsg]
-    }));
+        }));
     };
 
     useEffect(() => {
@@ -41,17 +41,27 @@ export const Chat = () => {
                 value: 'You entered message',
                 author: AUTHORS.BOT,
             }
-            setMessageList((prevMessageList) => [...prevMessageList, newMsg]);
+            setMessageList((...prevMessageList, [chatId].[...prevMessageList[chatId], newMsg]);
         }
-    }, [messageList]);
+    }, [messageList, chatId]);
 
-    return( <>
-        <ChatList />
-        <div className='wrapper' >
-            {messageList.map((message, index) =>
-                <Message key={index} author={message.author} text={message.value} id={chatId}/>)}
-            <div ref={messageRef}/>
-        </div>
-        <Form onSubmit={handleAddMessage} />
-    </>)
+    const messageArr = Object.keys(messageList);
+
+    return (
+        <>
+            <ChatList/>
+            {messageArr.map((key, messageArrIndex) => {
+                const messages = messageList[key];
+
+                return (
+                    <div className='wrapper' key={messageArrIndex}>
+                        {messages.map((message, index) =>
+                            <Message key={index} author={message.author} text={message.value} id={chatId}/>)}
+                        <div ref={messageRef}/>
+                    </div>
+                );
+            })}
+            <Form onSubmit={handleAddMessage}/>
+        </>
+    )
 }
