@@ -1,6 +1,6 @@
 import React from "react";
 import {List, ListItem} from '@mui/material';
-import {Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 
 const chatList = [
     {
@@ -19,10 +19,12 @@ const chatList = [
 
 export default function ChatList() {
     return (
-        <List>
+        <List className='list'>
             {chatList.map(chat =>
                 <ListItem key={chat.id}>
-                    <Link to={`/chats/${chat.id}`} >{chat.name}</Link>
+                    <NavLink style={({isActive}) => ({color: isActive ? 'green' : 'darkgray'})}
+                             to={`/chats/${chat.id}`} >{chat.name}
+                    </NavLink>
                 </ListItem>)}
         </List>
     )

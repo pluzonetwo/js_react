@@ -1,4 +1,4 @@
-import {BrowserRouter, Routes , Route, Link} from "react-router-dom";
+import {BrowserRouter, Routes , Route, Link, NavLink} from "react-router-dom";
 import {Chat} from '../components Chat/Chat'
 import ChatList from "../componentsChats/chatList";
 
@@ -10,13 +10,22 @@ export const Router = () => {
         <BrowserRouter>
             <ul>
                 <li>
-                    <Link to=''>Homepage</Link>
+                    <NavLink
+                        style={({isActive}) => ({color: isActive ? 'green' : 'darkgray'})}
+                        to=''>Homepage
+                    </NavLink>
                 </li>
                 <li>
-                    <Link to='profile'>Profile</Link>
+                    <NavLink
+                        style={({isActive}) => ({color: isActive ? 'green' : 'darkgray'})}
+                        to='profile'>Profile
+                    </NavLink>
                 </li>
                 <li>
-                    <Link to='chats'>Chats</Link>
+                    <NavLink
+                        style={({isActive}) => ({color: isActive ? 'green' : 'darkgray'})}
+                        to='chats'>Chats
+                    </NavLink>
                 </li>
             </ul>
             <Routes>

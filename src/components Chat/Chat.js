@@ -1,12 +1,12 @@
 import React, {useEffect, useRef, useState} from "react";
-import {useParams} from "react-router-dom";
+import {Navigate, useParams} from "react-router-dom";
 import {AUTHORS} from "../Utils/constants";
 import ChatList from "../componentsChats/chatList";
 import Message from "../componets message/message";
 import {Form} from "../components form/form";
 import '../App.css'
 
-const chats = [{id: 'chat 1'}];
+const chats = [{id: 'chat1'}];
 const messages = {
     chat1: [],
 };
@@ -36,32 +36,31 @@ export const Chat = () => {
     useEffect(() => {
         messageRef.current?.scrollIntoView();
 
-        if (messageList[chatId][messageList[chatId].length - 1]?.author === AUTHORS.ME) {
+        if (messageList[chatId]?.[messageList[chatId].length - 1]?.author === AUTHORS.ME) {
             const newMsg = {
                 value: 'You entered message',
                 author: AUTHORS.BOT,
             }
-            setMessageList((...prevMessageList, [chatId].[...prevMessageList[chatId], newMsg]);
+            setMessageList((prevMessageList) => ({
+                ...prevMessageList,
+                [chatId]: [...prevMessageList[chatId], newMsg]
+            }));
         }
     }, [messageList, chatId]);
 
-    const messageArr = Object.keys(messageList);
+    if (!messageList[chatId]){
+        return <Navigate to='/chats' replace/>;
+    }
 
     return (
         <>
             <ChatList/>
-            {messageArr.map((key, messageArrIndex) => {
-                const messages = messageList[key];
-
-                return (
-                    <div className='wrapper' key={messageArrIndex}>
-                        {messages.map((message, index) =>
-                            <Message key={index} author={message.author} text={message.value} id={chatId}/>)}
-                        <div ref={messageRef}/>
-                    </div>
-                );
-            })}
+            <div className='wrapper'>
+                {messageList[chatId].map((message, index) =>
+                    <Message key={index} author={message.author} text={message.value}/>)}
+                <div ref={messageRef}/>
+            </div>
             <Form onSubmit={handleAddMessage}/>
         </>
-    )
-}
+    );
+};
