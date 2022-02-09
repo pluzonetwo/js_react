@@ -5,6 +5,11 @@
     justify-content: center;
 }
 
-.inputs{
+.myTxtField.MuiFormControl-root{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.myBth.MuiButton-root {
     margin-top: 5px;
 }
