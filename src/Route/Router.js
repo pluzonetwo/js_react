@@ -1,9 +1,9 @@
 import {BrowserRouter, Routes , Route, Link, NavLink} from "react-router-dom";
 import {Chat} from '../components Chat/Chat'
 import ChatList from "../componentsChats/chatList";
+import {Profile} from "../components Proflie/profile";
 
 const Home = () => <h1>Homepage</h1>
-const Profile = () => <h1>Profile</h1>
 
 export const Router = () => {
     return (
@@ -34,7 +34,7 @@ export const Router = () => {
                     <Route index element={<ChatList />}/>
                     <Route path=':chatId' element={<Chat />}/>
                 </Route>
-                <Route path='profile' element={<Profile/>}/>
+                <Route path='profile' element={<Profile />}/>
             </Routes>
         </BrowserRouter>
     )
