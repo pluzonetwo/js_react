@@ -1,11 +1,42 @@
-import {BrowserRouter, Routes , Route, Link, NavLink} from "react-router-dom";
+import {BrowserRouter, Routes, Route, NavLink} from "react-router-dom";
 import {Chat} from '../components Chat/Chat'
 import ChatList from "../componentsChats/chatList";
 import {Profile} from "../components Proflie/profile";
+import {useState} from "react";
 
 const Home = () => <h1>Homepage</h1>
 
+const initialChats = [
+    {
+        id: 'chat1',
+        name: 'Chat # 1',
+    },
+    {
+        id: 'chat2',
+        name: 'Chat # 2',
+    },
+    {
+        id: 'chat3',
+        name: 'Chat # 3',
+    },
+];
+
+const initialMessages = initialChats.reduce((acc, el) => {
+    acc[el.id] = [];
+    return acc;
+}, {});
+
 export const Router = () => {
+    const [chatList, setChatList] = useState(initialChats);
+    const [messages, setMessages] = useState(initialMessages);
+
+    const handleAddMessage = (chatId, newMsg) => {
+        setMessages((prevMessageList) => ({
+            ...prevMessageList,
+            [chatId]: [...prevMessageList[chatId], newMsg]
+        }));
+    }
+
     return (
         <BrowserRouter>
             <ul>
@@ -29,12 +60,12 @@ export const Router = () => {
                 </li>
             </ul>
             <Routes>
-                <Route path='' element={<Home />}/>
+                <Route path='' element={<Home/>}/>
                 <Route path='chats'>
-                    <Route index element={<ChatList />}/>
-                    <Route path=':chatId' element={<Chat />}/>
+                    <Route index element={<ChatList chats={chatList} />}/>
+                    <Route path=':chatId' element={<Chat messages={messages} addMessage={handleAddMessage} />}/>
                 </Route>
-                <Route path='profile' element={<Profile />}/>
+                <Route path='profile' element={<Profile/>}/>
             </Routes>
         </BrowserRouter>
     )
