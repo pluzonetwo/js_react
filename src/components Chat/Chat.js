@@ -6,7 +6,7 @@ import Message from "../componets message/message";
 import {Form} from "../components form/form";
 import '../App.css'
 
-export const Chat = ({ messages, addMessage }) => {
+export const Chat = ({ messages, addMessage, chats }) => {
     const {chatId} = useParams();
 
     // const [messageList, setMessageList] = useState({
@@ -48,7 +48,7 @@ export const Chat = ({ messages, addMessage }) => {
 
     return (
         <>
-            <ChatList/>
+            <ChatList chats={chats}/>
             <div className='wrapper'>
                 {messages[chatId].map((message, index) =>
                     <Message key={index} author={message.author} text={message.value}/>)}

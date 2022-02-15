@@ -8,15 +8,15 @@ const Home = () => <h1>Homepage</h1>
 
 const initialChats = [
     {
-        id: 'chat1',
+        id: 1,
         name: 'Chat # 1',
     },
     {
-        id: 'chat2',
+        id: 2,
         name: 'Chat # 2',
     },
     {
-        id: 'chat3',
+        id: 3,
         name: 'Chat # 3',
     },
 ];
@@ -63,7 +63,14 @@ export const Router = () => {
                 <Route path='' element={<Home/>}/>
                 <Route path='chats'>
                     <Route index element={<ChatList chats={chatList} />}/>
-                    <Route path=':chatId' element={<Chat messages={messages} addMessage={handleAddMessage} />}/>
+                    <Route path=':chatId'
+                           element={
+                        <Chat
+                            messages={messages}
+                            addMessage={handleAddMessage}
+                            chats={chatList}/>
+                    }
+                    />
                 </Route>
                 <Route path='profile' element={<Profile/>}/>
             </Routes>

@@ -4,6 +4,7 @@ import {NavLink} from "react-router-dom";
 
 
 export default function ChatList({ chats }) {
+    console.log(chats);
     return (
         <List className='list'>
             {chats.map(chat =>
