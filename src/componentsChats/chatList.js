@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 import {Form} from "../components form/form";
 
 
-export default function ChatList({ chats, addChat }) {
+export default function ChatList({ chats, addChat, deleteChat }) {
     return (
         <>
             <Form onSubmit={addChat} />
@@ -12,8 +12,9 @@ export default function ChatList({ chats, addChat }) {
                 {chats.map(chat =>
                     <ListItem key={chat.id}>
                         <NavLink style={({isActive}) => ({color: isActive ? 'green' : 'darkgray'})}
-                                 to={`/chats/${chat.id}`} >{chat.name}
+                                 to={`/chats/${chat.id}`}><p>{chat.name}</p>
                         </NavLink>
+                        <div onClick={deleteChat}>X</div>
                     </ListItem>)}
             </List>
         </>

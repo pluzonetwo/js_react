@@ -35,15 +35,15 @@ export const Router = () => {
     const chatList = useSelector(state => state.chats);
     const dispatch = useDispatch();
 
-    const handleAddChat = ({newChatName}) => {
+    const handleAddChat = ({value}) => {
         const newId = `chat-${Date.now()}`;
 
         const newChat = {
             id: newId,
-            name: newChatName,
+            name: value,
         };
 
-        dispatch(addChat(newId, newChatName));
+        dispatch(addChat(newId, value));
         setMessages((prevMessages) =>({
             ...prevMessages,
             [newId]: [],
@@ -94,7 +94,7 @@ export const Router = () => {
             <Routes>
                 <Route path='' element={<Home/>}/>
                 <Route path='chats'>
-                    <Route index element={<ChatList chats={chatList} addChat={handleAddChat} />}/>
+                    <Route index element={<ChatList chats={chatList} addChat={handleAddChat} deleteChat={handleDeleteChat} />}/>
                     <Route path=':chatId'
                            element={
                         <Chat
