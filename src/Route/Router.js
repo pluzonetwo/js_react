@@ -3,6 +3,8 @@ import {Chat} from '../components Chat/Chat'
 import ChatList from "../componentsChats/chatList";
 import {Profile} from "../components Proflie/profile";
 import {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {addChat, deleteChat} from "../store/chats/actions";
 
 const Home = () => <h1>Homepage</h1>
 
@@ -27,8 +29,38 @@ const initialMessages = initialChats.reduce((acc, el) => {
 }, {});
 
 export const Router = () => {
-    const [chatList, setChatList] = useState(initialChats);
+    // const [chatList, setChatList] = useState(initialChats);
     const [messages, setMessages] = useState(initialMessages);
+
+    const chatList = useSelector(state => state.chats);
+    const dispatch = useDispatch();
+
+    const handleAddChat = ({newChatName}) => {
+        const newId = `chat-${Date.now()}`;
+
+        const newChat = {
+            id: newId,
+            name: newChatName,
+        };
+
+        dispatch(addChat(newId, newChatName));
+        setMessages((prevMessages) =>({
+            ...prevMessages,
+            [newId]: [],
+        }));
+    };
+
+    const handleDeleteChat = (idToDelete) => {
+        dispatch(deleteChat(idToDelete));
+
+        setMessages((prevMessages) => {
+            const newMessages = {...prevMessages};
+
+            delete newMessages[idToDelete];
+            return newMessages;
+        });
+    };
+
 
     const handleAddMessage = (chatId, newMsg) => {
         setMessages((prevMessageList) => ({
@@ -62,7 +94,7 @@ export const Router = () => {
             <Routes>
                 <Route path='' element={<Home/>}/>
                 <Route path='chats'>
-                    <Route index element={<ChatList chats={chatList} />}/>
+                    <Route index element={<ChatList chats={chatList} addChat={handleAddChat} />}/>
                     <Route path=':chatId'
                            element={
                         <Chat

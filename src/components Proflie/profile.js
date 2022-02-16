@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
-import {CHANGE_NAME, changeShowName} from "../store/profile/actions";
+import {changeName, changeShowName} from "../store/profile/actions";
 import {Form} from "../components form/form";
 
 
@@ -11,11 +11,8 @@ export const Profile = () => {
         dispatch(changeShowName);
     };
 
-    const handleChangeName = (text) => {
-        dispatch({
-            type: CHANGE_NAME,
-            payload: text,
-        });
+    const handleChangeName = ({value}) => {
+        dispatch(changeName(value));
     }
 
     return (
