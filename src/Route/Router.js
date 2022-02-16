@@ -2,40 +2,43 @@ import {BrowserRouter, Routes, Route, NavLink} from "react-router-dom";
 import {Chat} from '../components Chat/Chat'
 import ChatList from "../componentsChats/chatList";
 import {Profile} from "../components Proflie/profile";
-import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {addChat, deleteChat} from "../store/chats/actions";
+import {addMessage} from "../store/messages/actions";
 
 const Home = () => <h1>Homepage</h1>
 
-const initialChats = [
-    {
-        id: 1,
-        name: 'Chat # 1',
-    },
-    {
-        id: 2,
-        name: 'Chat # 2',
-    },
-    {
-        id: 3,
-        name: 'Chat # 3',
-    },
-];
-
-const initialMessages = initialChats.reduce((acc, el) => {
-    acc[el.id] = [];
-    return acc;
-}, {});
+// const initialChats = [
+//     {
+//         id: 1,
+//         name: 'Chat # 1',
+//     },
+//     {
+//         id: 2,
+//         name: 'Chat # 2',
+//     },
+//     {
+//         id: 3,
+//         name: 'Chat # 3',
+//     },
+// ];
+//
+// const initialMessages = initialChats.reduce((acc, el) => {
+//     acc[el.id] = [];
+//     return acc;
+// }, {});
 
 export const Router = () => {
     // const [chatList, setChatList] = useState(initialChats);
-    const [messages, setMessages] = useState(initialMessages);
+    // const [messages, setMessages] = useState(initialMessages);
 
     const chatList = useSelector(state => state.chats);
-    const dispatch = useDispatch();
+    const dispatchChats = useDispatch();
 
-    const handleAddChat = ({value}) => {
+    const messages = useSelector(state => state.messages);
+    const dispatchMessages = useDispatch();
+
+    const handleAddChat = ({value}, chatId, newMsg) => {
         const newId = `chat-${Date.now()}`;
 
         const newChat = {
@@ -43,31 +46,20 @@ export const Router = () => {
             name: value,
         };
 
-        dispatch(addChat(newId, value));
-        setMessages((prevMessages) =>({
-            ...prevMessages,
-            [newId]: [],
-        }));
+        dispatchChats(addChat(newId, value));
+        dispatchMessages(addMessage(chatId, newMsg));
     };
 
-    const handleDeleteChat = (idToDelete) => {
-        dispatch(deleteChat(idToDelete));
+    const handleDeleteChat = (idToDelete, chatId, newMsg) => {
+        dispatchChats(deleteChat(idToDelete));
 
-        setMessages((prevMessages) => {
-            const newMessages = {...prevMessages};
-
-            delete newMessages[idToDelete];
-            return newMessages;
-        });
+        dispatchMessages(addMessage(chatId, newMsg));
     };
 
 
     const handleAddMessage = (chatId, newMsg) => {
-        setMessages((prevMessageList) => ({
-            ...prevMessageList,
-            [chatId]: [...prevMessageList[chatId], newMsg]
-        }));
-    }
+        dispatchMessages(addMessage(chatId, newMsg));
+    };
 
     return (
         <BrowserRouter>

@@ -9,17 +9,12 @@ import '../App.css'
 export const Chat = ({ messages, addMessage, chats }) => {
     const {chatId} = useParams();
 
-    // const [messageList, setMessageList] = useState({
-    //     chat1: [],
-    //     chat2: [],
-    //     chat3: [],
-    // });
 
     const messageRef = useRef();
 
-    const handleAddMessage = ({value}) => {
+    const handleAddMessage = (chatId) => {
         const newMsg = {
-            value,
+            chatId,
             author: AUTHORS.ME,
         }
         addMessage(chatId, newMsg);

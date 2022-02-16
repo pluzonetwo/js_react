@@ -14,7 +14,7 @@ export default function ChatList({ chats, addChat, deleteChat }) {
                         <NavLink style={({isActive}) => ({color: isActive ? 'green' : 'darkgray'})}
                                  to={`/chats/${chat.id}`}><p>{chat.name}</p>
                         </NavLink>
-                        <div onClick={deleteChat}>X</div>
+                        <div onClick={() => {deleteChat(chat.id)}} >X</div>
                     </ListItem>)}
             </List>
         </>

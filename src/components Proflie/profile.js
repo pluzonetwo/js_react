@@ -1,11 +1,14 @@
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector, shallowEqual} from "react-redux";
 import {changeName, changeShowName} from "../store/profile/actions";
 import {Form} from "../components form/form";
+import {selectName, selectShowName} from "../store/profile/selectors";
 
 
 export const Profile = () => {
     const dispatch = useDispatch();
-    const {name, showName} = useSelector((state) => state);
+
+    const name = useSelector(selectName, shallowEqual);
+    const showName = useSelector(selectShowName, shallowEqual);
 
     const toggleShowName = () => {
         dispatch(changeShowName);
