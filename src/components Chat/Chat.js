@@ -20,6 +20,7 @@ export const Chat = ({ messages, addMessage, chats }) => {
         addMessage(chatId, newMsg);
     };
 
+
     useEffect(() => {
         messageRef.current?.scrollIntoView();
         let timeout;

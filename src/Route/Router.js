@@ -2,6 +2,7 @@ import {BrowserRouter, Routes, Route, NavLink} from "react-router-dom";
 import {Chat} from '../components Chat/Chat'
 import ChatList from "../componentsChats/chatList";
 import {Profile} from "../components Proflie/profile";
+import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {addChat, deleteChat} from "../store/chats/actions";
 import {addMessage} from "../store/messages/actions";
@@ -33,33 +34,40 @@ export const Router = () => {
     // const [messages, setMessages] = useState(initialMessages);
 
     const chatList = useSelector(state => state.chats);
-    const dispatchChats = useDispatch();
+    const dispatchChatList = useDispatch();
 
     const messages = useSelector(state => state.messages);
     const dispatchMessages = useDispatch();
 
-    const handleAddChat = ({value}, chatId, newMsg) => {
+    const handleAddChat = ({value}) => {
         const newId = `chat-${Date.now()}`;
-
         const newChat = {
             id: newId,
             name: value,
         };
 
-        dispatchChats(addChat(newId, value));
-        dispatchMessages(addMessage(chatId, newMsg));
+        dispatchChatList(addChat(newId, value));
+        // setMessages((prevMessages) =>({
+        //     ...prevMessages,
+        //     [newId]: [],
+        // }));
     };
 
-    const handleDeleteChat = (idToDelete, chatId, newMsg) => {
-        dispatchChats(deleteChat(idToDelete));
+    const handleDeleteChat = (idToDelete) => {
+        dispatchChatList(deleteChat(idToDelete));
 
-        dispatchMessages(addMessage(chatId, newMsg));
+        // setMessages((prevMessages) => {
+        //     const newMessages = {...prevMessages};
+        //
+        //     delete newMessages[idToDelete];
+        //     return newMessages;
+        // });
     };
 
 
     const handleAddMessage = (chatId, newMsg) => {
         dispatchMessages(addMessage(chatId, newMsg));
-    };
+    }
 
     return (
         <BrowserRouter>
