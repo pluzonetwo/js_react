@@ -6,20 +6,18 @@ import Message from "../componets message/message";
 import {Form} from "../components form/form";
 import '../App.css'
 
-export const Chat = ({ messages, addMessage, chats }) => {
+export const Chat = ({ messages, addMessage, chats, addChat, deleteChat }) => {
     const {chatId} = useParams();
-
 
     const messageRef = useRef();
 
-    const handleAddMessage = (chatId) => {
+    const handleAddMessage = ({value}) => {
         const newMsg = {
-            chatId,
+            value,
             author: AUTHORS.ME,
         }
         addMessage(chatId, newMsg);
     };
-
 
     useEffect(() => {
         messageRef.current?.scrollIntoView();
@@ -44,7 +42,7 @@ export const Chat = ({ messages, addMessage, chats }) => {
 
     return (
         <>
-            <ChatList chats={chats}/>
+            <ChatList chats={chats} addChat={addChat} deleteChat={deleteChat}/>
             <div className='wrapper'>
                 {messages[chatId].map((message, index) =>
                     <Message key={index} author={message.author} text={message.value}/>)}

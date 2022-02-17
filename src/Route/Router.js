@@ -2,41 +2,20 @@ import {BrowserRouter, Routes, Route, NavLink} from "react-router-dom";
 import {Chat} from '../components Chat/Chat'
 import ChatList from "../componentsChats/chatList";
 import {Profile} from "../components Proflie/profile";
-import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {addChat, deleteChat} from "../store/chats/actions";
-import {addMessage} from "../store/messages/actions";
+import {addMessage, deleteMessage, initMessages} from "../store/messages/actions";
+import {messagesSelector} from "../store/messages/selectors";
+import {chatsSelector} from "../store/chats/selectors";
 
 const Home = () => <h1>Homepage</h1>
 
-// const initialChats = [
-//     {
-//         id: 1,
-//         name: 'Chat # 1',
-//     },
-//     {
-//         id: 2,
-//         name: 'Chat # 2',
-//     },
-//     {
-//         id: 3,
-//         name: 'Chat # 3',
-//     },
-// ];
-//
-// const initialMessages = initialChats.reduce((acc, el) => {
-//     acc[el.id] = [];
-//     return acc;
-// }, {});
-
 export const Router = () => {
-    // const [chatList, setChatList] = useState(initialChats);
-    // const [messages, setMessages] = useState(initialMessages);
 
-    const chatList = useSelector(state => state.chats);
+    const chatList = useSelector(chatsSelector);
     const dispatchChatList = useDispatch();
 
-    const messages = useSelector(state => state.messages);
+    const messages = useSelector(messagesSelector);
     const dispatchMessages = useDispatch();
 
     const handleAddChat = ({value}) => {
@@ -47,14 +26,12 @@ export const Router = () => {
         };
 
         dispatchChatList(addChat(newId, value));
-        // setMessages((prevMessages) =>({
-        //     ...prevMessages,
-        //     [newId]: [],
-        // }));
+        dispatchMessages(initMessages(newId));
     };
 
     const handleDeleteChat = (idToDelete) => {
         dispatchChatList(deleteChat(idToDelete));
+        dispatchMessages(deleteMessage(idToDelete));
 
         // setMessages((prevMessages) => {
         //     const newMessages = {...prevMessages};
@@ -98,6 +75,8 @@ export const Router = () => {
                     <Route path=':chatId'
                            element={
                         <Chat
+                            addChat={handleAddChat}
+                            deleteChat={handleDeleteChat}
                             messages={messages}
                             addMessage={handleAddMessage}
                             chats={chatList}/>
