@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef} from "react";
 import {Navigate, useParams} from "react-router-dom";
 import {AUTHORS} from "../Utils/constants";
 import ChatList from "../componentsChats/chatList";
@@ -6,20 +6,9 @@ import Message from "../componets message/message";
 import {Form} from "../components form/form";
 import '../App.css'
 
-const chats = [{id: 'chat1'}];
-const messages = {
-    chat1: [],
-};
+export const Chat = ({ messages, addMessage, chats, addChat, deleteChat }) => {
+    const {chatId} = useParams();
 
-export const Chat = () => {
-    const params = useParams();
-    const {chatId} = params;
-
-    const [messageList, setMessageList] = useState({
-        chat1: [],
-        chat2: [],
-        chat3: [],
-    });
     const messageRef = useRef();
 
     const handleAddMessage = ({value}) => {
@@ -27,36 +16,35 @@ export const Chat = () => {
             value,
             author: AUTHORS.ME,
         }
-        setMessageList((prevMessageList) => ({
-            ...prevMessageList,
-            [chatId]: [...prevMessageList[chatId], newMsg]
-        }));
+        addMessage(chatId, newMsg);
     };
 
     useEffect(() => {
         messageRef.current?.scrollIntoView();
-
-        if (messageList[chatId]?.[messageList[chatId].length - 1]?.author === AUTHORS.ME) {
-            const newMsg = {
-                value: 'You entered message',
-                author: AUTHORS.BOT,
-            }
-            setMessageList((prevMessageList) => ({
-                ...prevMessageList,
-                [chatId]: [...prevMessageList[chatId], newMsg]
-            }));
+        let timeout;
+        if (messages[chatId]?.[messages[chatId].length - 1]?.author === AUTHORS.ME) {
+            timeout = setTimeout(() => {
+                const newMsg = {
+                    value: 'Hello! You entered message',
+                    author: AUTHORS.BOT,
+                };
+                addMessage(chatId, newMsg);
+            }, 3000);
         }
-    }, [messageList, chatId]);
+        return () => {
+            clearTimeout(timeout);
+        }
+    }, [messages]);
 
-    if (!messageList[chatId]){
+    if (!messages[chatId]){
         return <Navigate to='/chats' replace/>;
     }
 
     return (
         <>
-            <ChatList/>
+            <ChatList chats={chats} addChat={addChat} deleteChat={deleteChat}/>
             <div className='wrapper'>
-                {messageList[chatId].map((message, index) =>
+                {messages[chatId].map((message, index) =>
                     <Message key={index} author={message.author} text={message.value}/>)}
                 <div ref={messageRef}/>
             </div>

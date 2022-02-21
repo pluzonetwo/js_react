@@ -1,11 +1,51 @@
-import {BrowserRouter, Routes , Route, Link, NavLink} from "react-router-dom";
+import {BrowserRouter, Routes, Route, NavLink} from "react-router-dom";
 import {Chat} from '../components Chat/Chat'
 import ChatList from "../componentsChats/chatList";
 import {Profile} from "../components Proflie/profile";
+import {useDispatch, useSelector} from "react-redux";
+import {addChat, deleteChat} from "../store/chats/actions";
+import {addMessage, deleteMessage, initMessages} from "../store/messages/actions";
+import {messagesSelector} from "../store/messages/selectors";
+import {chatsSelector} from "../store/chats/selectors";
 
 const Home = () => <h1>Homepage</h1>
 
 export const Router = () => {
+
+    const chatList = useSelector(chatsSelector);
+    const dispatchChatList = useDispatch();
+
+    const messages = useSelector(messagesSelector);
+    const dispatchMessages = useDispatch();
+
+    const handleAddChat = ({value}) => {
+        const newId = `chat-${Date.now()}`;
+        const newChat = {
+            id: newId,
+            name: value,
+        };
+
+        dispatchChatList(addChat(newId, value));
+        dispatchMessages(initMessages(newId));
+    };
+
+    const handleDeleteChat = (idToDelete) => {
+        dispatchChatList(deleteChat(idToDelete));
+        dispatchMessages(deleteMessage(idToDelete));
+
+        // setMessages((prevMessages) => {
+        //     const newMessages = {...prevMessages};
+        //
+        //     delete newMessages[idToDelete];
+        //     return newMessages;
+        // });
+    };
+
+
+    const handleAddMessage = (chatId, newMsg) => {
+        dispatchMessages(addMessage(chatId, newMsg));
+    }
+
     return (
         <BrowserRouter>
             <ul>
@@ -29,12 +69,21 @@ export const Router = () => {
                 </li>
             </ul>
             <Routes>
-                <Route path='' element={<Home />}/>
+                <Route path='' element={<Home/>}/>
                 <Route path='chats'>
-                    <Route index element={<ChatList />}/>
-                    <Route path=':chatId' element={<Chat />}/>
+                    <Route index element={<ChatList chats={chatList} addChat={handleAddChat} deleteChat={handleDeleteChat} />}/>
+                    <Route path=':chatId'
+                           element={
+                        <Chat
+                            addChat={handleAddChat}
+                            deleteChat={handleDeleteChat}
+                            messages={messages}
+                            addMessage={handleAddMessage}
+                            chats={chatList}/>
+                    }
+                    />
                 </Route>
-                <Route path='profile' element={<Profile />}/>
+                <Route path='profile' element={<Profile/>}/>
             </Routes>
         </BrowserRouter>
     )

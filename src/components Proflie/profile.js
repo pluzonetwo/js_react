@@ -1,25 +1,36 @@
-import {useDispatch, useSelector} from "react-redux";
-import {changeShowName} from "../store/profile/actions";
+import {useDispatch, useSelector, shallowEqual} from "react-redux";
+import {changeName, changeShowName} from "../store/profile/actions";
+import {Form} from "../components form/form";
+import {selectName, selectShowName} from "../store/profile/selectors";
 
 
 export const Profile = () => {
     const dispatch = useDispatch();
-    const data = useSelector((state) => state);
+
+    const name = useSelector(selectName, shallowEqual);
+    const showName = useSelector(selectShowName, shallowEqual);
 
     const toggleShowName = () => {
         dispatch(changeShowName);
     };
 
+    const handleChangeName = ({value}) => {
+        dispatch(changeName(value));
+    }
+
     return (
-        <div>
+        <>
             <h1>Profile</h1>
-            <input
-                type="checkbox"
-                checked={data.showName}
-                value={data.showName}
-                onChange={toggleShowName}
-            />Change Show Name
-            {data.showName && <p>{data.name}</p>}
-        </div>
+            <Form onSubmit={handleChangeName} />
+            <div>
+                <input
+                    type="checkbox"
+                    checked={showName}
+                    value={showName}
+                    onChange={toggleShowName}
+                />Show Name
+                {showName && <p>{name}</p>}
+            </div>
+        </>
     );
 };
