@@ -19,22 +19,9 @@ export const Chat = ({ messages, addMessage, chats, addChat, deleteChat }) => {
         addMessage(chatId, newMsg);
     };
 
-    useEffect(() => {
+     useEffect(() => {
         messageRef.current?.scrollIntoView();
-        let timeout;
-        if (messages[chatId]?.[messages[chatId].length - 1]?.author === AUTHORS.ME) {
-            timeout = setTimeout(() => {
-                const newMsg = {
-                    value: 'Hello! You entered message',
-                    author: AUTHORS.BOT,
-                };
-                addMessage(chatId, newMsg);
-            }, 3000);
-        }
-        return () => {
-            clearTimeout(timeout);
-        }
-    }, [messages]);
+     }, [messages]);
 
     if (!messages[chatId]){
         return <Navigate to='/chats' replace/>;

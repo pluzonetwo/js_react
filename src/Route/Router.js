@@ -1,12 +1,12 @@
 import {BrowserRouter, Routes, Route, NavLink} from "react-router-dom";
 import {Chat} from '../components Chat/Chat'
 import ChatList from "../componentsChats/chatList";
-import {Profile} from "../components Proflie/profile";
 import {useDispatch, useSelector} from "react-redux";
 import {addChat, deleteChat} from "../store/chats/actions";
-import {addMessage, deleteMessage, initMessages} from "../store/messages/actions";
+import {addMessage, addMessageWithThunk, deleteMessage, initMessages} from "../store/messages/actions";
 import {messagesSelector} from "../store/messages/selectors";
 import {chatsSelector} from "../store/chats/selectors";
+import {Profile} from "../components Proflie/profile";
 
 const Home = () => <h1>Homepage</h1>
 
@@ -32,18 +32,11 @@ export const Router = () => {
     const handleDeleteChat = (idToDelete) => {
         dispatchChatList(deleteChat(idToDelete));
         dispatchMessages(deleteMessage(idToDelete));
-
-        // setMessages((prevMessages) => {
-        //     const newMessages = {...prevMessages};
-        //
-        //     delete newMessages[idToDelete];
-        //     return newMessages;
-        // });
     };
 
 
     const handleAddMessage = (chatId, newMsg) => {
-        dispatchMessages(addMessage(chatId, newMsg));
+        dispatchMessages(addMessageWithThunk(chatId, newMsg));
     }
 
     return (
@@ -83,7 +76,7 @@ export const Router = () => {
                     }
                     />
                 </Route>
-                <Route path='profile' element={<Profile/>}/>
+                <Route path='profile' element={<Profile />}/>
             </Routes>
         </BrowserRouter>
     )
