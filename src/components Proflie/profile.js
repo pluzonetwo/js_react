@@ -2,7 +2,7 @@ import {useDispatch, useSelector, shallowEqual} from "react-redux";
 import {changeName, changeShowName} from "../store/profile/actions";
 import {Form} from "../components form/form";
 import {selectName, selectShowName} from "../store/profile/selectors";
-import {Presentation_profile} from "./Presentation_profile";
+import {PresentationProfile} from "./PresentationProfile";
 
 
 export const Profile = () => {
@@ -15,6 +15,8 @@ export const Profile = () => {
         dispatch(changeShowName);
     };
 
+    console.log(toggleShowName);
+
     const handleChangeName = ({value}) => {
         dispatch(changeName(value));
     }
@@ -22,7 +24,7 @@ export const Profile = () => {
     return (
         <>
             <Form onSubmit={handleChangeName} />
-            <Presentation_profile
+            <PresentationProfile
                 name={name}
                 showName={showName}
                 toggleShowName={toggleShowName}

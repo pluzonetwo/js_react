@@ -1,5 +1,5 @@
 
-export const Presentation_profile = ({name}, {showName}, toggleShowName) => {
+export const PresentationProfile = ({name, showName, toggleShowName}) => {
     return (
         <>
             <h1>Profile</h1>
@@ -10,6 +10,7 @@ export const Presentation_profile = ({name}, {showName}, toggleShowName) => {
                     value={showName}
                     onChange={toggleShowName}
                 />Show Name
+                {showName && <p>{name}</p>}
             </div>
         </>
     );
