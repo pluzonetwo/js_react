@@ -7,6 +7,7 @@ import {addMessage, addMessageWithThunk, deleteMessage, initMessages} from "../s
 import {messagesSelector} from "../store/messages/selectors";
 import {chatsSelector} from "../store/chats/selectors";
 import {Profile} from "../components Proflie/profile";
+import {DataApi} from '../components dataApi/DataApi';
 
 const Home = () => <h1>Homepage</h1>
 
@@ -60,6 +61,12 @@ export const Router = () => {
                         to='chats'>Chats
                     </NavLink>
                 </li>
+                <li>
+                    <NavLink
+                        style={({isActive}) => ({color: isActive ? 'green' : 'darkgray'})}
+                        to='data'>DataApi
+                    </NavLink>
+                </li>
             </ul>
             <Routes>
                 <Route path='' element={<Home/>}/>
@@ -77,6 +84,7 @@ export const Router = () => {
                     />
                 </Route>
                 <Route path='profile' element={<Profile />}/>
+                <Route path='data' element={<DataApi />}/>
             </Routes>
         </BrowserRouter>
     )
