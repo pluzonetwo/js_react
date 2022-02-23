@@ -7,7 +7,7 @@ import {addMessage, addMessageWithThunk, deleteMessage, initMessages} from "../s
 import {messagesSelector} from "../store/messages/selectors";
 import {chatsSelector} from "../store/chats/selectors";
 import {Profile} from "../components Proflie/profile";
-import {DataApi} from '../components dataApi/DataApi';
+import {Poet} from '../components Poet/Poet';
 
 const Home = () => <h1>Homepage</h1>
 
@@ -64,7 +64,7 @@ export const Router = () => {
                 <li>
                     <NavLink
                         style={({isActive}) => ({color: isActive ? 'green' : 'darkgray'})}
-                        to='data'>DataApi
+                        to='poet'>Poet
                     </NavLink>
                 </li>
             </ul>
@@ -84,7 +84,7 @@ export const Router = () => {
                     />
                 </Route>
                 <Route path='profile' element={<Profile />}/>
-                <Route path='data' element={<DataApi />}/>
+                <Route path='poet' element={<Poet />}/>
             </Routes>
         </BrowserRouter>
     )
