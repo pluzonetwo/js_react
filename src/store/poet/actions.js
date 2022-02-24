@@ -24,10 +24,14 @@ export const getPoet = () => async (dispatch) => {
     try {
         const response = await fetch(apiURL);
         if (!response.ok) {
-            throw new Error(response.message);
+            throw new Error(response.status);
         }
         const result = await response.json();
-        dispatch(getPoetSuccess(result));
+        if (Array.isArray(result) === true) {
+            dispatch(getPoetSuccess(result));
+        } else {
+            throw new Error(response.status);
+        }
     } catch (err) {
         dispatch(getPoetFailure(err));
         console.warn(err);

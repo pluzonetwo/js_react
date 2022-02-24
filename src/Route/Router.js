@@ -3,7 +3,7 @@ import {Chat} from '../components Chat/Chat'
 import ChatList from "../componentsChats/chatList";
 import {useDispatch, useSelector} from "react-redux";
 import {addChat, deleteChat} from "../store/chats/actions";
-import {addMessage, addMessageWithThunk, deleteMessage, initMessages} from "../store/messages/actions";
+import {addMessageWithThunk, deleteMessage, initMessages} from "../store/messages/actions";
 import {messagesSelector} from "../store/messages/selectors";
 import {chatsSelector} from "../store/chats/selectors";
 import {Profile} from "../components Proflie/profile";

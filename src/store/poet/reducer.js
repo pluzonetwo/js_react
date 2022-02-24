@@ -3,7 +3,7 @@ import {FETCH_STATUSES} from "../../Utils/constants";
 
 const initialState = {
     data: [],
-    error: null,
+    error: false,
     status: FETCH_STATUSES.IDLE,
 };
 
