@@ -3,9 +3,10 @@ import {changeName, changeShowName} from "../store/profile/actions";
 import {Form} from "../components form/form";
 import {selectName, selectShowName} from "../store/profile/selectors";
 import {PresentationProfile} from "./PresentationProfile";
+import {logout} from "../services/firebase";
 
 
-export const Profile = () => {
+export const Profile = ({onLogout}) => {
     const dispatch = useDispatch();
 
     const name = useSelector(selectName, shallowEqual);
@@ -15,10 +16,16 @@ export const Profile = () => {
         dispatch(changeShowName);
     };
 
-    console.log(toggleShowName);
-
     const handleChangeName = ({value}) => {
         dispatch(changeName(value));
+    }
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+        } catch (e) {
+            console.warn(e);
+        }
     }
 
     return (
@@ -28,6 +35,7 @@ export const Profile = () => {
                 name={name}
                 showName={showName}
                 toggleShowName={toggleShowName}
+                onLogout={handleLogout}
             />
         </>
         // <>
