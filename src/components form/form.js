@@ -13,7 +13,7 @@ export const Form = ({onSubmit}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit({value});
+        onSubmit(value);
         setValue('');
     }
 

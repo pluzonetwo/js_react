@@ -7,7 +7,6 @@ import {Form} from "../components form/form";
 export default function ChatList({ chats, addChat, deleteChat }) {
     return (
         <>
-            <Form onSubmit={addChat} />
             <List className='list'>
                 {chats.map(chat =>
                     <ListItem key={chat.id}>
@@ -17,6 +16,8 @@ export default function ChatList({ chats, addChat, deleteChat }) {
                         <div onClick={() => {deleteChat(chat.id)}} >X</div>
                     </ListItem>)}
             </List>
+            <Form onSubmit={addChat} />
+
         </>
     )
 }
