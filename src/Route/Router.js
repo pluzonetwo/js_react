@@ -3,10 +3,11 @@ import {Chat} from '../components Chat/Chat'
 import ChatList from "../componentsChats/chatList";
 import {useDispatch, useSelector} from "react-redux";
 import {addChat, deleteChat} from "../store/chats/actions";
-import {addMessage, addMessageWithThunk, deleteMessage, initMessages} from "../store/messages/actions";
+import {addMessageWithThunk, deleteMessage, initMessages} from "../store/messages/actions";
 import {messagesSelector} from "../store/messages/selectors";
 import {chatsSelector} from "../store/chats/selectors";
 import {Profile} from "../components Proflie/profile";
+import {Poet} from '../components Poet/Poet';
 
 const Home = () => <h1>Homepage</h1>
 
@@ -60,6 +61,12 @@ export const Router = () => {
                         to='chats'>Chats
                     </NavLink>
                 </li>
+                <li>
+                    <NavLink
+                        style={({isActive}) => ({color: isActive ? 'green' : 'darkgray'})}
+                        to='poet'>Poet
+                    </NavLink>
+                </li>
             </ul>
             <Routes>
                 <Route path='' element={<Home/>}/>
@@ -77,6 +84,7 @@ export const Router = () => {
                     />
                 </Route>
                 <Route path='profile' element={<Profile />}/>
+                <Route path='poet' element={<Poet />}/>
             </Routes>
         </BrowserRouter>
     )
