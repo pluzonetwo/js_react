@@ -1,5 +1,5 @@
 
-export const PresentationProfile = ({name, showName, toggleShowName}) => {
+export const PresentationProfile = ({name, showName, toggleShowName, onLogout}) => {
     return (
         <>
             <h1>Profile</h1>
@@ -12,6 +12,7 @@ export const PresentationProfile = ({name, showName, toggleShowName}) => {
                 />Show Name
                 {showName && <p>{name}</p>}
             </div>
+            <button onClick={onLogout}>Logout</button>
         </>
     );
 }
